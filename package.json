@@ -1,0 +1,29 @@
+{
+  "name": "pokedex-tc",
+  "version": "1.0.0",
+  "description": "A Pokedex client in Typescript, for boot.dev",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/main.js",
+    "dev": "npx tsc && node dist/main.js",
+    "test": "vitest --run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katheland/pokedex-tc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/katheland/pokedex-tc/issues"
+  },
+  "homepage": "https://github.com/katheland/pokedex-tc#readme",
+  "devDependencies": {
+    "@types/node": "^22.15.20",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
+  },
+  "type": "module"
+}
