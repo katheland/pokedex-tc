@@ -45,6 +45,25 @@ export class PokeAPI {
         this.cache.add(url, data);
         return data;
     }
+
+    // gets a Pokemon species' catch rate
+    async fetchCatchRate(species: string): Promise<CatchRate> {
+        const url = PokeAPI.baseURL + "/pokemon-species/" + species;
+
+        // check the cache first
+        if (this.cache.get(url)) {
+            console.log(`Accessing cache for ${url}`);
+            return (this.cache.get(url) as CatchRate);
+        }
+
+        const response = await fetch(url, {
+            method: "GET",
+            mode: "cors"
+        });
+        const data = await response.json();
+        this.cache.add(url, data);
+        return data;
+    }
 }
 
 export type ShallowLocations = {
@@ -57,16 +76,19 @@ type Result = {
     name: string;
 }
 
-export interface Location {
+export type Location = {
     name: string
     pokemon_encounters: PokemonEncounter[]
 }
 
-interface PokemonEncounter {
+type PokemonEncounter = {
     pokemon: Pokemon
 }
 
-interface Pokemon {
+type Pokemon = {
     name: string
 }
 
+export type CatchRate = {
+    capture_rate: number
+}

@@ -10,16 +10,11 @@ export async function startREPL(state: State) {
         let inputWords = cleanInput(input);
         if (inputWords.length != 0) {
             let command = state.cmdList[inputWords[0]];
-            let arg: string = "";
-            // todo: this may need more work depending...
-            if (inputWords.length > 1) {
-                arg = inputWords[1];
-            }
             if (!command) {
                 console.log("Unknown command");
             } else {
                 try {
-                    await command.callback(state, arg);
+                    await command.callback(state, ...inputWords.splice(1));
                 } catch (e) {
                     console.log((e as Error).message);
                 }

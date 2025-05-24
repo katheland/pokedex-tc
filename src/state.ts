@@ -1,3 +1,4 @@
+import { stringify } from "node:querystring";
 import {getCommands} from "./commands.js";
 import {PokeAPI} from "./pokeapi.js";
 import {createInterface, type Interface} from "node:readline";
@@ -15,6 +16,13 @@ export type State = {
     pokeapi: PokeAPI;
     nextLocationsURL: string;
     prevLocationsURL: string | null;
+
+    pokedex: Record<string, Pokemon>;
+}
+
+// todo: this is a Pokedex entry, expand this later
+export type Pokemon = {
+    name: string;
 }
 
 export function initState() {
@@ -29,7 +37,9 @@ export function initState() {
 
         pokeapi: new PokeAPI(),
         nextLocationsURL: "https://pokeapi.co/api/v2/location-area/",
-        prevLocationsURL: null
+        prevLocationsURL: null,
+        
+        pokedex: {}
     }
     return q;
 }
