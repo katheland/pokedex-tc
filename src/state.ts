@@ -1,6 +1,6 @@
 import { stringify } from "node:querystring";
 import {getCommands} from "./commands.js";
-import {PokeAPI} from "./pokeapi.js";
+import {PokeAPI, CatchRate, PokemonData} from "./pokeapi.js";
 import {createInterface, type Interface} from "node:readline";
 
 export type CLICommand = {
@@ -17,12 +17,12 @@ export type State = {
     nextLocationsURL: string;
     prevLocationsURL: string | null;
 
-    pokedex: Record<string, Pokemon>;
+    pokedex: Record<string, PokedexEntry>;
 }
 
-// todo: this is a Pokedex entry, expand this later
-export type Pokemon = {
-    name: string;
+export type PokedexEntry = {
+    catchrate: CatchRate;
+    pokemondata: PokemonData;
 }
 
 export function initState() {

@@ -46,7 +46,7 @@ export class PokeAPI {
         return data;
     }
 
-    // gets a Pokemon species' catch rate
+    // gets a Pokemon species' catch rate (and also Pokedex entries)
     async fetchCatchRate(species: string): Promise<CatchRate> {
         const url = PokeAPI.baseURL + "/pokemon-species/" + species;
 
@@ -64,18 +64,39 @@ export class PokeAPI {
         this.cache.add(url, data);
         return data;
     }
+
+    // gets a Pokmeon's stats
+    async fetchPokemon(species: string): Promise<PokemonData> {
+        const url = PokeAPI.baseURL + "/pokemon/" + species;
+
+        // check the cache first
+        if (this.cache.get(url)) {
+            console.log(`Accessing cache for ${url}`);
+            return (this.cache.get(url) as PokemonData);
+        }
+
+        const response = await fetch(url, {
+            method: "GET",
+            mode: "cors"
+        });
+        const data = await response.json();
+        this.cache.add(url, data);
+        return data;
+    }
 }
 
+// list of locations
 export type ShallowLocations = {
-    next: string;
-    previous: string | null;
-    results: Result[];
+    next: string
+    previous: string | null
+    results: Result[]
 };
 
 type Result = {
-    name: string;
+    name: string
 }
 
+// list of pokemon at location
 export type Location = {
     name: string
     pokemon_encounters: PokemonEncounter[]
@@ -89,6 +110,51 @@ type Pokemon = {
     name: string
 }
 
+// catch rate and pokedex entries
 export type CatchRate = {
+    name: string
     capture_rate: number
+    flavor_text_entries: FlavorTextEntry[]
+}
+
+type FlavorTextEntry = {
+  flavor_text: string
+  language: Language
+  version: Version
+}
+
+type Language = {
+  name: string
+  url: string
+}
+
+type Version = {
+  name: string
+}
+
+// pokemon stats
+export type PokemonData = {
+    name: string
+    height: number
+    weight: number
+    stats: Stat[]
+    types: Type[]
+}
+
+type Stat = {
+  base_stat: number
+  stat: Stat2
+}
+
+type Stat2 = {
+  name: string
+}
+
+type Type = {
+  slot: number
+  type: Type2
+}
+
+type Type2 = {
+  name: string
 }

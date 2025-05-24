@@ -16,8 +16,11 @@ export async function commandCatch(state: State, species: string): Promise<void>
         console.log(`${species} was caught!`);
         if (!state.pokedex[species]) {
             console.log(`New Pokedex entry registered for ${species}`);
-            // todo: flesh out the Pokedex later
-            state.pokedex[species] = {name: species};
+            const data = await state.pokeapi.fetchPokemon(species);
+            state.pokedex[species] = {
+                catchrate: result,
+                pokemondata: data,
+            };
         }
     } else {
         console.log(`${species} escaped!`)
